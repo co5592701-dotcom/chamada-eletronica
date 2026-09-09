@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fila de Chamada - Cuidar de Você</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #3b4231;
+            background-image: 
+                radial-gradient(ellipse at 20% 30%, #556b2f 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 70%, #2f4f2f 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 50%, #4b5320 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 10%, #355e3b 0%, transparent 35%),
+                radial-gradient(ellipse at 10% 90%, #2b381e 0%, transparent 40%);
+            background-size: 300px 300px;
+            color: #333; 
+        }
+
+        .container { 
+            max-width: 950px; 
+            margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.96); 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+        }
+
+        .header-system {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .red-cross {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+        .red-cross::before, .red-cross::after {
+            content: '';
+            position: absolute;
+            background-color: #dc3545;
+            border-radius: 3px;
+        }
+        .red-cross::before { top: 0; left: 12px; width: 16px; height: 40px; }
+        .red-cross::after { top: 12px; left: 0; width: 40px; height: 16px; }
+
+        .slogan-text {
+            font-size: 17px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-top: 25px; }
+        
+        .painel-controle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .painel-controle { grid-template-columns: 1fr; }
+        }
+
+        .box-secao {
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; font-size: 14px; }
+        input, select, button { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
+        
+        button { background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; margin-top: 5px; transition: background 0.2s; }
+        button:hover { background: #218838; }
+        
+        .btn-chamar { background: #007bff; font-size: 18px; padding: 15px; margin-top: 15px; }
+        .btn-chamar:hover { background: #0056b3; }
+        
+        .btn-remover { background: #dc3545; width: auto; padding: 4px 8px; font-size: 12px; margin-top: 0; }
+        .btn-remover:hover { background: #c82333; }
+
+        .lista-espera {
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+        }
+        .item-fila {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .item-fila:last-child { border-bottom: none; }
+        
+        .tv-screen { 
+            background: #111; 
+            color: #fff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            text-align: center; 
+            margin-top: 25px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+        .tv-paciente { font-size: 42px; color: #ffc107; font-weight: bold; margin: 15px 0; }
+        .tv-sala { font-size: 26px; color: #28a745; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="header-system">
+        <div class="red-cross"></div>
+        <h1 class="slogan-text">Cuidar de você é a nossa forma de servir</h1>
+        <div class="red-cross"></div>
+    </div>
+
+    <div class="painel-controle">
+        <!-- Coluna 1: Cadastro na Fila -->
+        <div class="box-secao">
+            <h2>1. Cadastrar Paciente</h2>
+            <div class="form-group">
+                <label for="nomePaciente">Nome do Paciente:</label>
+                <input type="text" id="nomePaciente" placeholder="Ex: Dona Maria">
+            </div>
+            <div class="form-group">
+                <label for="destinoLocal">Local de Destino:</label>
+                <select id="destinoLocal">
+                    <option value="Consultório Médico 1">Consultório Médico 1</option>
+                    <option value="Consultório Médico 2">Consultório Médico 2</option>
+                    <option value="Enfermaria">Enfermaria</option>
+                    <option value="Triagem">Triagem</option>
+                    <option value="Atendimento Naps">Atendimento Naps</option>
+                </select>
+            </div>
+            <button onclick="adicionarNaFila()">Adicionar à Fila</button>
+        </div>
+
+        <!-- Coluna 2: Fila de Espera e Ação -->
+        <div class="box-secao">
+            <h2>2. Fila de Espera</h2>
+            <div class="lista-espera" id="listaEsperaHTML">
+                <div style="padding: 15px; text-align: center; color: #777;">A fila está vazia.</div>
+            </div>
+            <button class="btn-chamar" onclick="chamarProximo()">📢 Chamar Próximo</button>
+        </div>
+    </div>
+
+    <!-- Visão da TV -->
+    <div class="tv-screen">
+        <div style="font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Painel da Sala de Espera</div>
+        <div class="tv-paciente" id="tvNome">Aguardando chamada...</div>
+        <div class="tv-sala" id="tvSala">-</div>
+    </div>
+</div>
+
+<script>
+    let fila = JSON.parse(localStorage.getItem('fila_pacientes')) || [];
+
+    function salvarEEstruturar() {
+        localStorage.setItem('fila_pacientes', JSON.stringify(fila));
+        atualizarInterfaceFila();
+    }
+
+    function adicionarNaFila() {
+        const nomeInput = document.getElementById('nomePaciente');
+        const salaSelect = document.getElementById('destinoLocal');
+        
+        const nome = nomeInput.value.trim();
+        const sala = salaSelect.value;
+
+        if (!nome) {
+            alert('Digite o nome do paciente.');
+            return;
+        }
+
+        fila.push({ id: Date.now(), nome, sala });
+        
+        nomeInput.value = '';
+        nomeInput.focus();
+        salvarEEstruturar();
+    }
+
+    function removerDaFila(id) {
+        fila = fila.filter(item => item.id !== id);
+        salvarEEstruturar();
+    }
+
+    function chamarProximo() {
+        if (fila.length === 0) {
+            alert('A fila de espera está vazia!');
+            return;
+        }
+
+        const chamado = fila.shift(); 
+        salvarEEstruturar();
+
+        executarChamadaNaTela(chamado);
+        
+        localStorage.setItem('ultimo_chamado_tv', JSON.stringify(chamado));
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'ultimo_chamado_tv',
+            newValue: JSON.stringify(chamado)
+        }));
+    }
+
+    function executarChamadaNaTela(dados) {
+        document.getElementById('tvNome').innerText = dados.nome;
+        document.getElementById('tvSala').innerText = "Dirija-se a(o) " + dados.sala;
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const texto = `${dados.nome}, dirigir-se a ${dados.sala}`;
+            const mensagem = new SpeechSynthesisUtterance(texto);
+            mensagem.lang = 'pt-BR';
+            window.speechSynthesis.speak(mensagem);
+        }
+    }
+
+    function atualizarInterfaceFila() {
+        const container = document.getElementById('listaEsperaHTML');
+        if (fila.length === 0) {
+            container.innerHTML = '<div style="padding: 15px; text-align: center; color: #777;">Nenhum paciente na fila.</div>';
+            return;
+        }
+
+        container.innerHTML = '';
+        fila.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="item-fila">
+                    <span><strong>${index + 1}º</strong> - ${item.nome} (${item.sala})</span>
+                    <button class="btn-remover" onclick="removerDaFila(${item.id})">Excluir</button>
+                </div>
+            `;
+        });
+    }
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'fila_pacientes') {
+            fila = JSON.parse(e.newValue) || [];
+            atualizarInterfaceFila();
+        }
+        if (e.key === 'ultimo_chamado_tv' && e.newValue) {
+            const dados = JSON.parse(e.newValue);
+            document.getElementById('tvNome').innerText = dados.nome;
+            document.getElementById('tvSala').innerText = "Dirija-se a(o) " + dados.sala;
+        }
+    });
+
+    window.onload = () => {
+        atualizarInterfaceFila();
+        const ultimo = localStorage.getItem('ultimo_chamado_tv');
+        if (ultimo) {
+            const dados = JSON.parse(ultimo);
+            document.getElementById('tvNome').innerText = dados.nome;
+            document.getElementById('tvSala').innerText = "Dirija-se a(o) " + dados.sala;
+        }
+    };
+</script>
+
+</body>
+</html>
